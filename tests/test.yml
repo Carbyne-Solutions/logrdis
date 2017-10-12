@@ -1,0 +1,44 @@
+---
+engine: 'sqlite:///:memory:'
+
+ingest:
+  data: 'L(.*)'
+  rotate: 'R'
+  truncate: 'T'
+  reopen: 'O'
+  flush: 'F'
+  rotatecount: 'r(\d+)'
+  bufferoutput: 'b(\d)'
+
+process:
+  data:
+    action: store
+    tablename: access_logs
+    pk: id
+    schema:
+      id: Integer
+      time: DateTime
+      time_response: String
+      mac_source: String
+      ip_source: String
+      squid_request_status: String
+      http_status_code: String
+      http_reply_size: Integer
+      http_request_method: String
+      http_request_url: String
+      user_name: String
+      squid_hier_code: String
+      ip_destination: String
+      http_content_type: String
+  rotate:
+    action: drop
+  truncate:
+    action: drop
+  reopen:
+    action: drop
+  flush:
+    action: drop
+  rotatecount:
+    action: drop
+  bufferoutput:
+    action: drop
