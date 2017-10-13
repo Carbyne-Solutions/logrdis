@@ -19,8 +19,9 @@
 #
 #******************************************************************************
 
+from sqlalchemy import Column, create_engine, MetaData, Table
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine, Column
+from sqlalchemy.orm import mapper, sessionmaker
 
 
 class Adapter(object):
@@ -37,12 +38,10 @@ class Adapter(object):
         self.__table_definitions = dict()  # key = tablename
         self.types = dict()  # key typename
 
-    def create(self):
-        """Create defined tablename.
-
-        :param tablename: str. prior defined (using declare) table
-        """
-        self.base.metadata.create_all(self.engine)
+    @property
+    def definitions(self):
+        """Provide table definitions."""
+        return self.__table_definitions
 
     def declare(self, tablename, pk, mapping):
         """Declare a table dynamically using the mapping.
@@ -62,17 +61,33 @@ class Adapter(object):
                 'password': Column(String)
             }
         """
-        self.__table_definitions[tablename] = {'__tablename__': tablename, '__table_args__': {'extend_existing': True}}
+        self.__table_definitions[tablename] = dict()
         if pk not in mapping.iterkeys():
             raise AttributeError('Invalid primary key defined')
 
         for column_name, column_declaration in mapping.iteritems():
             if column_name not in self.types:
                 # Cache column types for all declaration imports
-                self.types[column_name] = __import__('sqlalchemy', fromlist=[column_name])
+                _import = __import__('sqlalchemy', fromlist=[str(column_declaration)])
+                self.types[column_name] = getattr(_import, column_declaration)
 
-            self.__table_definitions[tablename][column_name] = Column(self.types[column_name])
+            self.__table_definitions[tablename][column_name] = Column(column_name, self.types[column_name])
             if pk == column_name:
                 self.__table_definitions[tablename][column_name].primary_key=True
 
-        self.tables[tablename] = type(tablename, (self.base,), self.__table_definitions[tablename])
+        metadata = MetaData(bind=self.engine)
+        self.tables[tablename] = \
+            Table(tablename, metadata, *self.__table_definitions[tablename].itervalues(), extend_existing=True)
+        metadata.create_all()
+
+    def query(self, tablename, column_name):
+        """Helper fn to query a specific table for column."""
+        class Table(object):
+            pass
+
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
+        mapper(Table, self.tables[tablename])
+        results = session.query(getattr(Table, column_name))
+
+        return results

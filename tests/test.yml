@@ -2,7 +2,8 @@
 engine: 'sqlite:///:memory:'
 
 ingest:
-  data: 'L(.*)'
+  # Example of space separated log output
+  data: 'L(?P=<time>\S+)(?P=<time_response>\S+)(?P=<mac_source>\S+)(?P=<ip_source>\S+)(?P=<squid_request_status>\S+)(?P=<http_status_code>\S+)(?P=<http_reply_size>\S+)(?P=<http_request_method>\S+)(?P=<http_request_url>\S+)(?P=<user_name>\S+)(?P=<squid_hier_code>\S+)(?P=<ip_destination>\S+)(?P=<http_content_type>\S+)'
   rotate: 'R'
   truncate: 'T'
   reopen: 'O'
