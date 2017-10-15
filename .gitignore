@@ -1,3 +1,4 @@
+.eggs/
 .cache
 *.pyc
 Logrdis.egg-info/
