@@ -24,7 +24,7 @@ def run_log_server(config):
 
     if not 'engine' in config_directives:
         raise KeyError('engine not defined in configuration')
-    sql = Adapter(config['engine'])
+    sql = Adapter(config_directives['engine'])
     for process, directives in cfg['process'].items():
         if directives['action'] == 'store':
             if 'pk' not in directives:
