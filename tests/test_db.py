@@ -27,6 +27,7 @@ def test_create(setup_db):
 
 def test_store(sample_entry, setup_db):
     """Test store function."""
+    cfg = config.parse('test.yml')
     sql = setup_db
     sample_regex = re.compile(cfg['ingest']['data'])
     sample_match = sample_regex.search(sample_entry)

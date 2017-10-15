@@ -1,5 +1,6 @@
 ---
 engine: 'sqlite:///test.sql'
+socket: 'tcp'
 listen_port: 4444
 listen_host: ''
 
