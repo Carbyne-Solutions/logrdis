@@ -1,0 +1,43 @@
+version: "3"
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - /data/db:/var/lib/postgresql/data:rw
+    environment:
+      - POSTGRES_PASSWORD=default
+      - POSTGRES_USER=squid
+      - POSTGRES_DB=squidb
+
+  squid:
+    image: registry.dauehaus:5000/carbyne/squid
+    links:
+      - db
+    depends_on:
+      - db
+    environment:
+      - PGPASSWORD=default
+    ports:
+      - 3128:3128
+      - 3129:3129
+    volumes:
+      - /data/squid:/etc/squid:rw
+
+  logrdis:
+    image: registry.dauehaus:5000/carbyne/logrdis
+    links:
+      - squid
+      - db
+    depends_on:
+      - squid
+      - db
+    volumes:
+      - /data/logrdis/etc:/etc/logrdis:rw
+      - /data/logrdis/db:/var/lib/logrdis/logrdis.sql:rw
+    environment:
+      - DB_PROTO='postgresql'
+      - DB_HOST='db'
+      - DB_USER='squid'
+      - DB_PASS='default'
+      - DB_NAME='squidb'

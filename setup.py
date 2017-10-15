@@ -11,7 +11,7 @@ setup(
     include_package_data=True,
     package_data={'': ['requirements.txt']},
     install_requires=reqs,
-    setup_requires=['setuptools>=36.0.0', 'setuptools-git-version'],
+    setup_requires=['setuptools>=8.0.0', 'setuptools-git-version'],
     entry_points={
         "console_scripts": [
             'logrdis = logrdis.core:run_log_server'
