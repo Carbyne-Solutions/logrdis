@@ -1,7 +1,7 @@
 import logging
 import asyncio
 from asyncio import Protocol, DatagramProtocol
-from .log import find_match
+from logrdis.log import find_match
 
 LOGGER = logging.getLogger()
 

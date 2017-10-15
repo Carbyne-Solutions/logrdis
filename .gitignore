@@ -1,2 +1,5 @@
 .cache
 *.pyc
+Logrdis.egg-info/
+build/
+dist/

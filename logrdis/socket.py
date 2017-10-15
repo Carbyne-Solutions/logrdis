@@ -1,6 +1,6 @@
 import logging
 import sys
-from .db import Adapter
+from logrdis.db import Adapter
 
 # Currently only support Python3 Asynchio implementation
 if sys.version_info >= (3, 0):

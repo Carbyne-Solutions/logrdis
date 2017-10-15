@@ -1,24 +1,28 @@
 import logging
-from .config import parse
-from .db import Adapter
-from .socket import run_forever
+import os
+import click
+from logrdis.config import parse
+from logrdis.db import Adapter
+from logrdis.socket import SocketServer
 
 LOGGER = logging.getLogger()
 
 # Create thread pool, each worker consumes from a queue
 # Each worker is configured for sql; queue passes socket/address tuples
 
-def run_log_server(config_path):
+@click.command()
+@click.option('--config', '-c', default='/etc/logrdis/logrdis.yml', help='logrdis configuration directives; this file defaults to /etc/logrdis/logrdis.yml')
+def run_log_server(config):
     """Entry point function.
 
     :param config_path: str. a filepath to the YAML configuration directive
     :raises: OSError, KeyError
     """
-    if not os.path.exists(config_path):
-        raise OSError('{} does not exist'.format(config_path))
-    config = parse(config_path)
+    if not os.path.exists(config):
+        raise OSError('{} does not exist'.format(config))
+    config_directives = parse(config)
 
-    if not 'engine' in config:
+    if not 'engine' in config_directives:
         raise KeyError('engine not defined in configuration')
     sql = Adapter(config['engine'])
     for process, directives in cfg['process'].items():
@@ -32,6 +36,7 @@ def run_log_server(config_path):
             sql.declare(directives['tablename'], directives['pk'], directives['schema'])
             LOGGER.info('Stored directive {}'.format(directives['tablename']))
 
-    run_forever(cfg)
+    socket_server = SocketServer()
+    socket_server.run_forever(cfg)
 
     LOGGER.info('Exiting')
