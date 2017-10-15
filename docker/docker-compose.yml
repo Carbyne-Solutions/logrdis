@@ -4,7 +4,7 @@ services:
   db:
     image: postgres
     volumes:
-      - /data/db:/var/lib/postgresql/data:rw
+      - db:/var/lib/postgresql/data:rw
     environment:
       - POSTGRES_PASSWORD=default
       - POSTGRES_USER=squid
@@ -22,7 +22,7 @@ services:
       - 3128:3128
       - 3129:3129
     volumes:
-      - /data/squid:/etc/squid:rw
+      - squid:/etc/squid:rw
 
   logrdis:
     image: registry.dauehaus:5000/carbyne/logrdis
@@ -33,8 +33,8 @@ services:
       - squid
       - db
     volumes:
-      - /data/logrdis/etc:/etc/logrdis:rw
-      - /data/logrdis/db:/var/lib/logrdis/logrdis.sql:rw
+      - logrdis/etc:/etc/logrdis:rw
+      - logrdis/db:/var/lib/logrdis/logrdis.sql:rw
     environment:
       - DB_PROTO='postgresql'
       - DB_HOST='db'
