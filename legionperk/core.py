@@ -1,21 +1,37 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
- 
-#******************************************************************************
-#********************* Carbyne Solutions, Incorporated ************************
-#------------------------------------------------------------------------------
-#
-# [2014] - [2014] Carbyne Solutions, Incorporated
-# All Rights Reserved
-#
-# Notice: All information contained herein is, and remains the property of
-# Carbyne Solutions, Incorporated and its suppliers, if any. The intellectual
-# and technical concepts contained herein are proprietary to Carbyne Solutions
-# Incorporated and its suppliers, if any, and may be covered by U.S and Foreign
-# Patents, patents in process, and are protected by trade secret or copyright
-# law. Dissemination of this information or reproduction of this material is
-# strictly forbidden unless prior written permission is obtained from Carbyne
-# Solutions, Incorporated.
-#
-#******************************************************************************
+import logging
+from .config import parse
+from .db import Adapter
+from .socket import run_forever
 
+LOGGER = logging.getLogger()
+
+# Create thread pool, each worker consumes from a queue
+# Each worker is configured for sql; queue passes socket/address tuples
+
+def run_log_server(config_path):
+    """Entry point function.
+
+    :param config_path: str. a filepath to the YAML configuration directive
+    :raises: OSError, KeyError
+    """
+    if not os.path.exists(config_path):
+        raise OSError('{} does not exist'.format(config_path))
+    config = parse(config_path)
+
+    if not 'engine' in config:
+        raise KeyError('engine not defined in configuration')
+    sql = Adapter(config['engine'])
+    for process, directives in cfg['process'].items():
+        if directives['action'] == 'store':
+            if 'pk' not in directives:
+                raise KeyError('No pk field declared in process config')
+            if 'tablename' not in directives:
+                raise KeyError('No tablename field declared in process config')
+            if 'schema' not in directives:
+                raise KeyError('No schema field declared in process config')
+            sql.declare(directives['tablename'], directives['pk'], directives['schema'])
+            LOGGER.info('Stored directive {}'.format(directives['tablename']))
+
+    run_forever(cfg)
+
+    LOGGER.info('Exiting')

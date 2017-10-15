@@ -1,9 +1,11 @@
 ---
-engine: 'sqlite:///:memory:'
+engine: 'sqlite:///test.sql'
+listen_port: 4444
+listen_host: ''
 
 ingest:
   # Example of space separated log output
-  data: 'L(?P=<time>\S+)(?P=<time_response>\S+)(?P=<mac_source>\S+)(?P=<ip_source>\S+)(?P=<squid_request_status>\S+)(?P=<http_status_code>\S+)(?P=<http_reply_size>\S+)(?P=<http_request_method>\S+)(?P=<http_request_url>\S+)(?P=<user_name>\S+)(?P=<squid_hier_code>\S+)(?P=<ip_destination>\S+)(?P=<http_content_type>\S+)'
+  data: 'L(?P<id>\S+)\s+(?P<time>\S+)\s+(?P<time_response>\S+)\s+(?P<mac_source>\S+)\s+(?P<ip_source>\S+)\s+(?P<squid_request_status>\S+)\s+(?P<http_status_code>\S+)\s+(?P<http_reply_size>\S+)\s+(?P<http_request_method>\S+)\s+(?P<http_request_url>\S+)\s+(?P<user_name>\S+)\s+(?P<squid_hier_code>\S+)\s+(?P<ip_destination>\S+)\s+(?P<http_content_type>\S+)'
   rotate: 'R'
   truncate: 'T'
   reopen: 'O'
@@ -18,7 +20,7 @@ process:
     pk: id
     schema:
       id: Integer
-      time: DateTime
+      time: String
       time_response: String
       mac_source: String
       ip_source: String
