@@ -1,5 +1,8 @@
+import logging
 import os
 import yaml
+
+LOGGER = logging.getLogger()
 
 
 def parse(filename):
@@ -35,21 +38,22 @@ def parse(filename):
             db_uri = os.environ.get('DB_URI', ':memory:')
             data['engine'] = 'sqlite:///{}'.format(db_uri)
         else:
-            db_user = os.environ.get('DB_USER', '')
-            db_pass = os.environ.get('DB_PASS', '')
-            db_host = os.environ.get('DB_HOST', '')
-            db_port = os.environ.get('DB_PORT', '')
-            db_name = os.environ.get('DB_NAME', '')
+            db_user = os.environ.get('DB_USER', None)
+            db_pass = os.environ.get('DB_PASS', None)
+            db_host = os.environ.get('DB_HOST', None)
+            db_port = os.environ.get('DB_PORT', None)
+            db_name = os.environ.get('DB_NAME', None)
 
             if not db_host or not db_name:
                 raise KeyError('Invalid configuration setting (DB_HOST and DB_NAME are required)')
 
+            data['engine'] += "{}://".format(db_proto.strip("'"))
             if db_user and db_pass:
-                data['engine'] += "{}:{}@".format(db_user, db_pass)
-            data['engine'] += db_host
+                data['engine'] += "{}:{}@".format(db_user.strip("'"), db_pass.strip("'"))
+            data['engine'] += db_host.strip("'")
             if db_port:
-                data['engine'] += ":{}".format(db_port)
-            data['engine'] += "/{}".format(db_name)
+                data['engine'] += ":{}".format(db_port.strip("'"))
+            data['engine'] += "/{}".format(db_name.strip("'"))
 
         LOGGER.info('Setting engine: {}'.format(data['engine']))
 

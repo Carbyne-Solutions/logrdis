@@ -1,7 +1,7 @@
 import os
 import re
 import pytest
-from ..legionperk import config, db
+from ..logrdis import config, db
 
 
 def test_declare():

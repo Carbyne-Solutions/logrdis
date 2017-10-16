@@ -6,8 +6,8 @@ import sys
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from ..legionperk import config
-from ..legionperk.db import Adapter
+from ..logrdis import config
+from ..logrdis.db import Adapter
 
 LOGGER = logging.getLogger()
 

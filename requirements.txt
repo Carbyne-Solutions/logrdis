@@ -3,3 +3,5 @@ PyYAML==3.12
 SQLAlchemy==1.1.14
 py==1.4.34
 pytest==3.2.3
+postgres
+mysqlclient

@@ -1,9 +1,9 @@
 import logging
 import os
 import click
-from logrdis.config import parse
-from logrdis.db import Adapter
-from logrdis.socket import SocketServer
+from .config import parse
+from .db import Adapter
+from .socket import SocketServer
 
 LOGGER = logging.getLogger()
 
@@ -25,7 +25,7 @@ def run_log_server(config):
     if not 'engine' in config_directives:
         raise KeyError('engine not defined in configuration')
     sql = Adapter(config_directives['engine'])
-    for process, directives in cfg['process'].items():
+    for process, directives in config_directives['process'].items():
         if directives['action'] == 'store':
             if 'pk' not in directives:
                 raise KeyError('No pk field declared in process config')
@@ -37,6 +37,6 @@ def run_log_server(config):
             LOGGER.info('Stored directive {}'.format(directives['tablename']))
 
     socket_server = SocketServer()
-    socket_server.run_forever(cfg)
+    socket_server.run_forever(config_directives, sql)
 
     LOGGER.info('Exiting')

@@ -2,9 +2,9 @@ import threading
 import time
 import os
 import pytest
-from ..legionperk import config
-from ..legionperk import db
-from ..legionperk.socket import SocketServer
+from ..logrdis import config
+from ..logrdis import db
+from ..logrdis.socket import SocketServer
 
 server = SocketServer()
 
