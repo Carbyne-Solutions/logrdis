@@ -1,7 +1,7 @@
 import logging
 import re
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 def find_match(log_line, cfg):
     """Receives a log line and finds a match using the cfg object.

@@ -8,7 +8,7 @@ if sys.version_info >= (3, 0):
 else:
     raise ImportError('Require Python 3.0+')
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 class SocketServer:
     def run_forever(self, cfg, sql):

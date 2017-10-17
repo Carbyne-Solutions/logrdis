@@ -3,7 +3,7 @@ import asyncio
 from asyncio import Protocol, DatagramProtocol
 from .log import find_match
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 class LogTCPProtocol(Protocol):
     """TCP Server derived from Protocol."""

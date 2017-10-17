@@ -5,7 +5,7 @@ from .config import parse
 from .db import Adapter
 from .socket import SocketServer
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 # Create thread pool, each worker consumes from a queue
 # Each worker is configured for sql; queue passes socket/address tuples

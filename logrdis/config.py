@@ -2,7 +2,7 @@ import logging
 import os
 import yaml
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 
 def parse(filename):

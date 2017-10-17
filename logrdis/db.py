@@ -3,7 +3,7 @@ from sqlalchemy import Column, create_engine, MetaData, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import mapper, sessionmaker
 
-LOGGER = logging.getLogger()
+LOGGER = logging.getLogger(__name__)
 
 
 class Adapter(object):
