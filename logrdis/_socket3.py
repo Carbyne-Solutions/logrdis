@@ -129,8 +129,7 @@ class AsynchSocketServer:
         try:
             self.loop.run_forever()
         except (SystemExit, KeyboardInterrupt):
-            if not self.server.is_closed():
-                self.server.close()
+            self.server.close()
             self.loop.run_until_complete(self.server.wait_closed())
             self.loop.close()
 
