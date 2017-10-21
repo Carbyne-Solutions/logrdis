@@ -6,7 +6,11 @@ from ..logrdis import config, db
 
 def test_declare(test_yaml):
     """Declare and test config file entries."""
+<<<<<<< HEAD
     cfg = test_yaml()
+=======
+    cfg = test_yaml
+>>>>>>> f061c540c3a4286ec65526dc6aab5ea48586e859
     sql = db.Adapter(cfg['engine'])
     for process, directives in cfg['process'].items():
         if directives['action'] == 'store':
@@ -27,7 +31,11 @@ def test_create(setup_db):
 
 def test_store(sample_entry, setup_db, test_yaml):
     """Test store function."""
+<<<<<<< HEAD
     cfg = test_yaml()
+=======
+    cfg = test_yaml
+>>>>>>> f061c540c3a4286ec65526dc6aab5ea48586e859
     sql = setup_db
     sample_regex = re.compile(cfg['ingest']['data'])
     sample_match = sample_regex.search(sample_entry)
