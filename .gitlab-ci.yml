@@ -11,6 +11,15 @@ stages:
   - deploy
 
 job1:
-  script: "python setup.py install"
-job2:
-  script: "pytest tests/"
+  stage: build
+  script:
+    - "python setup.py install"
+  only:
+    - master
+
+  stage: test
+  script:
+    - "pytest tests/"
+  only:
+    - master
+
