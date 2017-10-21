@@ -18,7 +18,7 @@ def query_check(cfg):
     results = session.execute('SELECT * from access_logs')
     return results
 
-def test_socket_tcp(log_server, sample_entry):
+def test_socket_tcp(log_server, sample_entry, test_yaml):
     """Test the TCP server."""
     # Send a log message
     server = log_server('tcp')
@@ -31,14 +31,14 @@ def test_socket_tcp(log_server, sample_entry):
     time.sleep(1)
 
     # verify that our log message was received
-    cfg = config.parse('test.yml')
+    cfg = test_yaml
     results = query_check(cfg)
     for res in results:
         assert res['mac_source'] == 'mac_source'
 
     server.stop()
 
-def test_socket_udp(log_server, sample_entry):
+def test_socket_udp(log_server, sample_entry, test_yaml):
     """Test the UDP server."""
     server = log_server('udp')
     # Send a log message
@@ -50,7 +50,7 @@ def test_socket_udp(log_server, sample_entry):
     time.sleep(1)
 
     # verify that our log message was received
-    cfg = config.parse('test.yml')
+    cfg = test_yaml
     results = query_check(cfg)
     for res in results:
         assert res['mac_source'] == 'mac_source'
