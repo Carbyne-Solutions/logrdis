@@ -2,6 +2,7 @@ image: python:3-alpine
 
 before_script:
   - pip install pytest
+  - apk update
   - apk add git
 
 stages:
