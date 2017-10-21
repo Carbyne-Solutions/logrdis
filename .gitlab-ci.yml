@@ -4,6 +4,7 @@ before_script:
   - pip install pytest
   - apk update
   - apk add git mariadb-dev python3-dev yaml-dev postgresql-dev gcc musl-dev ca-certificates
+  - python setup.py install
 
 stages:
   - build
@@ -11,16 +12,17 @@ stages:
   - deploy
 
 job1:
-  stage: build
-  script:
-    - "python setup.py install"
-  only:
-    - master
-
-job2:
   stage: test
   script:
     - "pytest tests/"
   only:
     - master
+
+job3:
+  stage: deploy
+  script:
+    - "docker build -t registry.dauehaus:5000/carbyne/logrdis:latest docker/"
+    - "docker push registry.dauehaus:5000/carbyne/logrdis:latest"
+  only:
+    -master
 
