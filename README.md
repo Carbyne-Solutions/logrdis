@@ -8,7 +8,7 @@ It's original use-case is to convert Squid access_logs, streamed via TCP, into a
 # How do I use it?
 ## Microservice Architecture
 Logrdis is designed to be used as a micro service. As such, it is best used in combination with a docker container cluster, consisting of the service with streaming output and a database container. An example docker-compose.yml configuration file:
-```
+```yaml
 version: "3"
 
 services:
@@ -80,7 +80,7 @@ Logrdis uses a YAML file to configure the stream redirector. There are a few key
  * pk *(str.)*: *required*; identifies the *primary key* of the table schema. This **must** identify one of the column names as the primary key of the table.
 
 ## YAML Configuration Example
-```
+```yaml
 ---
 engine: 'sqlite:///test.sql'
 socket: 'tcp'
