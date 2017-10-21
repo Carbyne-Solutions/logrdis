@@ -7,20 +7,32 @@ stages:
   - test
   - deploy
 
-job1:
-  image: python:3-alpine
+build_test:
   stage: test
+  image: python:3-alpine
   before_script:
     - pip install pytest
     - python setup.py install
+    - python setup.py sdist
+  cache:
+    key: sdist
+    paths:
+      - dist
   script:
     - "pytest tests/"
   only:
     - master
 
-job2:
+docker:
   stage: deploy
   image: docker:latest
+  cache:
+    key: sdist
+    paths:
+      - dist
+    policy: pull
+  before_script:
+    - cp dist/*.tar.gz docker/
   script:
     - python setup.py sdist
     - cp dist/*.tar.gz docker/
