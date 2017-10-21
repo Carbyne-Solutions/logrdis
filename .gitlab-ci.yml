@@ -1,7 +1,3 @@
-before_script:
-  - apk update
-  - apk add git mariadb-dev python3-dev yaml-dev postgresql-dev gcc musl-dev ca-certificates
-
 stages:
   - build
   - test
@@ -11,6 +7,8 @@ build_test:
   stage: test
   image: python:3-alpine
   before_script:
+    - apk update
+    - apk add git mariadb-dev python3-dev yaml-dev postgresql-dev gcc musl-dev ca-certificates
     - pip install pytest
     - python setup.py install
     - python setup.py sdist
@@ -34,10 +32,9 @@ docker:
   before_script:
     - cp dist/*.tar.gz docker/
   script:
-    - python setup.py sdist
-    - cp dist/*.tar.gz docker/
     - "docker build -t registry.dauehaus:5000/carbyne/logrdis:latest docker/"
     - "docker push registry.dauehaus:5000/carbyne/logrdis:latest"
   only:
     - master
+
 
