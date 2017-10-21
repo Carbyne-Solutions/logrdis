@@ -1,18 +1,16 @@
-image: python:3-alpine
-
-before_script:
-  - pip install pytest
-  - apk update
-  - apk add git mariadb-dev python3-dev yaml-dev postgresql-dev gcc musl-dev ca-certificates
-  - python setup.py install
-
 stages:
   - build
   - test
   - deploy
 
 job1:
+  image: python:3-alpine
   stage: test
+  before_script:
+    - apk update
+    - apk add git mariadb-dev python3-dev yaml-dev postgresql-dev gcc musl-dev ca-certificates
+    - pip install pytest
+    - python setup.py install
   script:
     - "pytest tests/"
   only:
