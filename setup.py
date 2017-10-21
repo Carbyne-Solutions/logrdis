@@ -6,7 +6,7 @@ reqs = [str(ir.req) for ir in install_reqs]
 
 setup(
     name="Logrdis",
-    version_format="{tag}.master{commitcount}+{gitsha}",
+    version_format="{tag}",
     packages=find_packages(exclude=["*.tests", "*.tests.*", "tests.*", "tests", "*.pyc"]),
     include_package_data=True,
     package_data={'': ['requirements.txt']},
@@ -23,5 +23,5 @@ setup(
     description="A fully configurable stream redirector from a socket to a database",
     license="BSD-4-Clause",
     keywords="log stream sql redirect",
-    url="https://github.com/carbyne/logrdis",
+    url="https://github.com/Carbyne-Solutions/logrdis",
 )
