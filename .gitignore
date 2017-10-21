@@ -1,0 +1,7 @@
+.eggs/
+.cache
+*.pyc
+Logrdis.egg-info/
+build/
+dist/
+*.tar.gz

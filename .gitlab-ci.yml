@@ -1,0 +1,4 @@
+job1:
+  script: "python setup.py install"
+job2:
+  script: "pytest tests/"
