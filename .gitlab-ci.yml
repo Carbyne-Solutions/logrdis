@@ -17,6 +17,7 @@ job1:
   only:
     - master
 
+job2:
   stage: test
   script:
     - "pytest tests/"
