@@ -31,7 +31,7 @@ def test_socket_tcp(log_server, sample_entry, test_yaml):
     time.sleep(1)
 
     # verify that our log message was received
-    cfg = test_yaml
+    cfg = test_yaml()
     results = query_check(cfg)
     for res in results:
         assert res['mac_source'] == 'mac_source'
@@ -50,7 +50,7 @@ def test_socket_udp(log_server, sample_entry, test_yaml):
     time.sleep(1)
 
     # verify that our log message was received
-    cfg = test_yaml
+    cfg = test_yaml()
     results = query_check(cfg)
     for res in results:
         assert res['mac_source'] == 'mac_source'

@@ -32,7 +32,9 @@ def run_test_server(socket):
 
 @pytest.fixture(scope="function")
 def test_yaml():
-    return load_test_yaml()
+	def int_fn():
+		return load_test_yaml()
+	return int_fn
 
 @pytest.fixture(scope="function")
 def log_server(request):

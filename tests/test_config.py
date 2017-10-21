@@ -4,7 +4,7 @@ from ..logrdis import config
 
 def test_config(test_yaml):
     """Test the configuration module."""
-    config_dict = test_yaml
+    config_dict = test_yaml()
     assert config_dict['ingest']['bufferoutput'] == 'b(\\d)'
     assert config_dict['process']['data']['schema']['ip_source'] == 'String'
 
@@ -19,7 +19,7 @@ def test_config_env_sparse(request, test_yaml):
     os.environ['DB_HOST'] = 'squid_host'
     os.environ['DB_NAME'] = 'squid_name'
 
-    config_dict = test_yaml
+    config_dict = test_yaml()
     assert config_dict['engine'] == 'postgresql://squid_host/squid_name'
 
 def test_config_env_rich(request, test_yaml):
@@ -45,7 +45,7 @@ def test_config_env_rich(request, test_yaml):
     os.environ['LISTEN_HOST'] = '0.0.0.0'
     os.environ['LISTEN_PORT'] = '5555'
 
-    config_dict = test_yaml
+    config_dict = test_yaml()
 
     assert config_dict['engine'] == 'postgresql://squid:pass@squidh:5432/squidn'
     assert config_dict['socket'] == 'tcp'
