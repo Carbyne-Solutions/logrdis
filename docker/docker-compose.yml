@@ -11,7 +11,7 @@ services:
       - POSTGRES_DB=squidb
 
   squid:
-    image: carbyne/squid
+    image: carbynesolutions/squid
     links:
       - db
     depends_on:
@@ -25,7 +25,7 @@ services:
       - squiddata:/etc/squid:rw
 
   logrdis:
-    image: carbyne/logrdis
+    image: carbynesolutions/logrdis
     links:
       - squid
       - db
