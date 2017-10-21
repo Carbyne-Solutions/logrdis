@@ -1,3 +1,13 @@
+image: python:3-alpine
+
+before_script:
+  - pip install pytest
+
+stages:
+  - build
+  - test
+  - deploy
+
 job1:
   script: "python setup.py install"
 job2:
