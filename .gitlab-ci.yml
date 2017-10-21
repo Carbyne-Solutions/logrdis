@@ -21,8 +21,7 @@ job1:
 job3:
   stage: deploy
   script:
-    - "docker build -t registry.dauehaus:5000/carbyne/logrdis:latest docker/"
-    - "docker push registry.dauehaus:5000/carbyne/logrdis:latest"
+    - "docker build -t registry.dauehaus:5000/carbyne/logrdis:latest docker/; docker push registry.dauehaus:5000/carbyne/logrdis:latest"
   only:
     -master
 
