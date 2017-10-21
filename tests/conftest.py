@@ -8,7 +8,6 @@ from ..logrdis.socket import SocketServer
 
 server = SocketServer()
 
-<<<<<<< HEAD
 def find_test_yaml(test_file):
     for root, dirs, files in os.walk('.'):
         if test_file in files:
@@ -18,17 +17,6 @@ def load_test_yaml(test_file='test.yml'):
     config_file = find_test_yaml(test_file)
     assert config_file, 'Could not find the {} configuration file!'.format(test_file)
     cfg = config.parse(config_file)
-=======
-def find_test_yaml():
-    for root, dirs, files in os.walk('.'):
-        if name == 'test.yml':
-            return os.path.join(root, name)
-
-def load_test_yaml():
-    config_file = find_test_yaml()
-    assert config_file, 'Could not find the test.yml configuration file!'
-    cfg = config.parse('test.yml')
->>>>>>> f061c540c3a4286ec65526dc6aab5ea48586e859
     return cfg
 
 def run_test_server(socket):
@@ -44,13 +32,9 @@ def run_test_server(socket):
 
 @pytest.fixture(scope="function")
 def test_yaml():
-<<<<<<< HEAD
 	def int_fn():
 		return load_test_yaml()
 	return int_fn
-=======
-    return load_test_yaml()
->>>>>>> f061c540c3a4286ec65526dc6aab5ea48586e859
 
 @pytest.fixture(scope="function")
 def log_server(request):
