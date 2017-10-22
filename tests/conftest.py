@@ -69,4 +69,4 @@ def setup_db(request):
 
 @pytest.fixture(scope="module")
 def sample_entry():
-    return "L0 time time_response mac_source ip_source squid_request_status http_status_code 55 http_request_method http_request_url user_name squid_hier_code ip_destination http_content_type"
+    return "time 2017-10-22_18:20:05+0000 time_response 60 mac_source 08:00:27:f4:c8:4b ip_source 10.0.2.16 squid_request_status TAG_NONE http_status_code 200 http_reply_size 0 http_request_method CONNECT http_request_url 172.217.5.228:443 user_name - squid_hier_code ORIGINAL_DST ip_destination 172.217.5.228 http_content_type -"

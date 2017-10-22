@@ -1,8 +1,9 @@
 import logging
-import threading
-import time
+import re
 import socket
 import sys
+import threading
+import time
 import pytest
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -34,7 +35,7 @@ def test_socket_tcp(log_server, sample_entry, test_yaml):
     cfg = test_yaml()
     results = query_check(cfg)
     for res in results:
-        assert res['mac_source'] == 'mac_source'
+        assert re.search("[\d\w\:]+", res['mac_source'])
 
     server.stop()
 
@@ -53,6 +54,6 @@ def test_socket_udp(log_server, sample_entry, test_yaml):
     cfg = test_yaml()
     results = query_check(cfg)
     for res in results:
-        assert res['mac_source'] == 'mac_source'
+        assert re.search("[\d\w\:]+", res['mac_source'])
 
     server.stop()

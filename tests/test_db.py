@@ -35,6 +35,6 @@ def test_store(sample_entry, setup_db, test_yaml):
     sql.store('access_logs', sample_match)
 
     results = sql.query('access_logs', 'mac_source').one()
-    assert results[0] == 'mac_source'
-    results = sql.query('access_logs', 'id').one()
-    assert results[0] == 0
+    assert re.search('[\d\w\:]+', results[0])
+    results = sql.query('access_logs', 'ip_source').one()
+    assert re.search('[\d\.]+', results[0])
