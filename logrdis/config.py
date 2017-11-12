@@ -51,7 +51,7 @@ def parse(filename):
 
             data['engine'] = ("{}://{}:{}@{}:{}/{}".
                               format(db_proto, db_user, db_pass, db_host,
-                                     db_port, db_name))
+                                     db_port, db_name)).replace('"', '')
 
         LOGGER.info('Setting engine: {}'.format(data['engine']))
 
