@@ -19,8 +19,8 @@ def test_config_env_sparse(request, test_yaml):
     os.environ['DB_HOST'] = 'squid_host'
     os.environ['DB_NAME'] = 'squid_name'
 
-    config_dict = test_yaml()
-    assert config_dict['engine'] == 'postgresql://squid_host/squid_name'
+    with pytest.raises(AttributeError):
+        config_dict = test_yaml()
 
 def test_config_env_rich(request, test_yaml):
     def fin():

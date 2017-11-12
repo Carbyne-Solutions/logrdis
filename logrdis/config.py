@@ -44,16 +44,14 @@ def parse(filename):
             db_port = os.environ.get('DB_PORT', None)
             db_name = os.environ.get('DB_NAME', None)
 
-            if not db_host or not db_name:
-                raise KeyError('Invalid configuration setting (DB_HOST and DB_NAME are required)')
+            if None in [db_user, db_pass, db_host, db_port, db_name]:
+                raise AttributeError('Need: DB_USER, DB_PASS, DB_HOST, DB_PORT'
+                                     ', DB_NAME arguments to create RFC1738 '
+                                     'connection string')
 
-            data['engine'] += "{}://".format(db_proto.strip("'"))
-            if db_user and db_pass:
-                data['engine'] += "{}:{}@".format(db_user.strip("'"), db_pass.strip("'"))
-            data['engine'] += db_host.strip("'")
-            if db_port:
-                data['engine'] += ":{}".format(db_port.strip("'"))
-            data['engine'] += "/{}".format(db_name.strip("'"))
+            data['engine'] = ("{}://{}:{}@{}:{}/{}".
+                              format(db_proto, db_user, db_pass, db_host,
+                                     db_port, db_name))
 
         LOGGER.info('Setting engine: {}'.format(data['engine']))
 
