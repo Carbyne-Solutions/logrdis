@@ -59,6 +59,7 @@ def parse(filename):
     listen_port = os.environ.get('LISTEN_PORT', None)
     listen_host = os.environ.get('LISTEN_HOST', None)
     socket = os.environ.get('SOCKET', None)
+    data['db_timeout'] = os.environ.get("DB_TIMEOUT", 60)  # timeout after 60 s
 
     if listen_port:
         data['listen_port'] = listen_port

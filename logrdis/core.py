@@ -1,9 +1,11 @@
 import logging
 import os
+import re
 import click
 from .config import parse
 from .db import Adapter
 from .socket import SocketServer
+from .util import wait_for
 
 LOGGER = logging.getLogger(__name__)
 
@@ -24,6 +26,15 @@ def run_log_server(config):
 
     if not 'engine' in config_directives:
         raise KeyError('engine not defined in configuration')
+
+    # Wait for db server if one is configured
+    conn_match = re.search('@([\w\d\.]+):([\w\d]+)\/', config_directives['engine'])
+    if conn_match:
+        ip_addr = conn_match.group(1)
+        port = conn_match.group(2)
+        LOGGER.info('Waiting for {}:{} to be ready'.format(ip_addr, port))
+        wait_for(ip_addr, port, config_directives['db_timeout'])
+
     sql = Adapter(config_directives['engine'])
     for process, directives in config_directives['process'].items():
         if directives['action'] == 'store':
