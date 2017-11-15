@@ -16,7 +16,7 @@ class Adapter(object):
         http://docs.sqlalchemy.org/en/latest/core/engines.html
         """
         self.engine = create_engine(engine)
-        self.maybe_create_db(engine)  # Create the db if it does not exist
+        self.maybe_create_db(self.engine)  # Create the db if it does not exist
         self.base = declarative_base()
         self.tables = dict()  # key = tablename
         self.__table_definitions = dict()  # key = tablename
