@@ -1,6 +1,7 @@
 click==6.7
 PyYAML==3.12
 SQLAlchemy==1.1.14
+sqlalchemy_utils
 py==1.4.34
 pytest==3.2.3
 postgres
