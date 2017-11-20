@@ -43,9 +43,9 @@ class Adapter(object):
         .. code-block:: python
 
             {
-                'id': Column(Integer, primary_key=True), 
-                'name': Column(String), 
-                'fullname': Column(String), 
+                'id': Column(Integer, primary_key=True),
+                'name': Column(String),
+                'fullname': Column(String),
                 'password': Column(String)
             }
         """
@@ -54,7 +54,6 @@ class Adapter(object):
             # Automatically add a _id column primary key index
             LOGGER.debug('Autocreate primary key column _id')
             prikey_column = Column("_id", Integer, primary_key=True)
-            self.types['_id'] = prikey_column
             self.__table_definitions[tablename]['_id'] = prikey_column
 
         for column_name, column_declaration in mapping.items():
