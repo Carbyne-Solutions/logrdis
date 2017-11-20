@@ -117,7 +117,11 @@ class Adapter(object):
 
         table_entry = Table()
         for column_name in self.__table_definitions[tablename].keys():
-            setattr(table_entry, column_name, regex_dict[column_name])
+            try:
+                setattr(table_entry, column_name, regex_dict[column_name])
+            except KeyError:
+                LOGGER.warning('No column {} found in table {}'
+                               .format(column_name, tablename))
         session.add(table_entry)
         LOGGER.debug('Stored: {}'.format(table_entry))
 
