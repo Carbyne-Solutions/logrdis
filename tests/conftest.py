@@ -25,6 +25,8 @@ def run_test_server(socket):
     sql = db.Adapter(cfg['engine'])
 
     for process, directives in cfg['process'].items():
+        if not 'pk' in directives:
+            directives['pk'] = "_id"
         if directives['action'] == 'store':
             sql.declare(directives['tablename'], directives['pk'], directives['schema'])
 
@@ -63,6 +65,8 @@ def setup_db(request):
     sql = db.Adapter(cfg['engine'])
 
     for process, directives in cfg['process'].items():
+        if not 'pk' in directives:
+            directives['pk'] = '_id'
         if directives['action'] == 'store':
             sql.declare(directives['tablename'], directives['pk'], directives['schema'])
     return sql

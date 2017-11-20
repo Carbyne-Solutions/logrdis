@@ -19,9 +19,7 @@ process:
   data:
     action: store
     tablename: access_logs
-    pk: id
     schema:
-      id: Integer
       time: String
       time_response: String
       mac_source: String

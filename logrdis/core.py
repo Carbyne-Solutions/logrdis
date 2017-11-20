@@ -39,11 +39,12 @@ def run_log_server(config):
     for process, directives in config_directives['process'].items():
         if directives['action'] == 'store':
             if 'pk' not in directives:
-                raise KeyError('No pk field declared in process config')
+                directives['pk'] = "_id"
             if 'tablename' not in directives:
                 raise KeyError('No tablename field declared in process config')
             if 'schema' not in directives:
                 raise KeyError('No schema field declared in process config')
+                raise KeyError('No pk field declared in process config')
             sql.declare(directives['tablename'], directives['pk'], directives['schema'])
             LOGGER.info('Stored directive {}'.format(directives['tablename']))
 

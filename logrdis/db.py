@@ -1,5 +1,5 @@
 import logging
-from sqlalchemy import Column, create_engine, MetaData, Table
+from sqlalchemy import Column, Integer, create_engine, MetaData, Table
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import mapper, sessionmaker
 from sqlalchemy_utils.functions import create_database, database_exists
@@ -51,7 +51,11 @@ class Adapter(object):
         """
         self.__table_definitions[tablename] = dict()
         if pk not in mapping.keys():
-            raise AttributeError('Invalid primary key defined')
+            # Automatically add a _id column primary key index
+            LOGGER.debug('Autocreate primary key column _id')
+            prikey_column = Column("_id", Integer, primary_key=True)
+            self.types['_id'] = prikey_column
+            self.__table_definitions[tablename]['_id'] = prikey_column
 
         for column_name, column_declaration in mapping.items():
             if column_name not in self.types:

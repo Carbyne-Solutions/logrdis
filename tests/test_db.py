@@ -9,6 +9,8 @@ def test_declare(test_yaml):
     cfg = test_yaml()
     sql = db.Adapter(cfg['engine'])
     for process, directives in cfg['process'].items():
+        if not 'pk' in directives:
+            directives['pk'] = '_id'
         if directives['action'] == 'store':
             sql.declare(directives['tablename'], directives['pk'], directives['schema'])
 
