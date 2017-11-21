@@ -57,3 +57,115 @@ def test_socket_udp(log_server, sample_entry, test_yaml):
         assert re.search("[\d\w\:]+", res['mac_source'])
 
     server.stop()
+
+def test_socket_tcp_multiple_same_conn(log_server, sample_entries, test_yaml):
+    """Test the TCP server."""
+    # Send a log message
+    server = log_server('tcp')
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    LOGGER.debug('Sending test message to localhost:4444')
+    sock.connect(('localhost', 4444))
+    for msg in sample_entries:
+        sock.send(msg.encode() + "\n".encode())
+    sock.close()
+
+    time.sleep(1)
+
+    # verify that our log message was received
+    cfg = test_yaml()
+    results = query_check(cfg)
+    index = 0
+    for res in results:
+        if index == 0:
+            assert res['http_request_url'] == '172.217.5.228:1'
+        elif index == 1:
+            assert res['http_request_url'] == '172.217.5.228:2'
+        elif index == 2:
+            assert res['http_request_url'] == '172.217.5.228:3'
+        index += 1
+        assert re.search("[\d\w\:]+", res['mac_source'])
+
+    server.stop()
+
+def test_socket_tcp_multiple_multi_conn(log_server, sample_entries, test_yaml):
+    """Test the TCP server."""
+    # Send a log message
+    server = log_server('tcp')
+    for msg in sample_entries:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        LOGGER.debug('Sending test message to localhost:4444')
+        sock.connect(('localhost', 4444))
+        sock.send(msg.encode() + "\n".encode())
+        sock.close()
+        time.sleep(1)
+
+    # verify that our log message was received
+    cfg = test_yaml()
+    results = query_check(cfg)
+    index = 0
+    for res in results:
+        if index == 0:
+            assert res['http_request_url'] == '172.217.5.228:1'
+        elif index == 1:
+            assert res['http_request_url'] == '172.217.5.228:2'
+        elif index == 2:
+            assert res['http_request_url'] == '172.217.5.228:3'
+        index += 1
+        assert re.search("[\d\w\:]+", res['mac_source'])
+
+    server.stop()
+
+def test_socket_udp_multiple_same_conn(log_server, sample_entries, test_yaml):
+    """Test the UDP server."""
+    # Send a log message
+    server = log_server('udp')
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    LOGGER.debug('Sending test message to localhost:4444')
+    for msg in sample_entries:
+        sock.sendto(msg.encode(), ('localhost', 4444))
+    sock.close()
+
+    time.sleep(1)
+
+    # verify that our log message was received
+    cfg = test_yaml()
+    results = query_check(cfg)
+    index = 0
+    for res in results:
+        if index == 0:
+            assert res['http_request_url'] == '172.217.5.228:1'
+        elif index == 1:
+            assert res['http_request_url'] == '172.217.5.228:2'
+        elif index == 2:
+            assert res['http_request_url'] == '172.217.5.228:3'
+        index += 1
+        assert re.search("[\d\w\:]+", res['mac_source'])
+
+    server.stop()
+
+def test_socket_udp_multiple_multi_conn(log_server, sample_entries, test_yaml):
+    """Test the UDP server."""
+    # Send a log message
+    server = log_server('udp')
+    for msg in sample_entries:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        LOGGER.debug('Sending test message to localhost:4444')
+        sock.sendto(msg.encode(), ('localhost', 4444))
+        sock.close()
+        time.sleep(1)
+
+    # verify that our log message was received
+    cfg = test_yaml()
+    results = query_check(cfg)
+    index = 0
+    for res in results:
+        if index == 0:
+            assert res['http_request_url'] == '172.217.5.228:1'
+        elif index == 1:
+            assert res['http_request_url'] == '172.217.5.228:2'
+        elif index == 2:
+            assert res['http_request_url'] == '172.217.5.228:3'
+        index += 1
+        assert re.search("[\d\w\:]+", res['mac_source'])
+
+    server.stop()

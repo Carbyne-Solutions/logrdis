@@ -74,3 +74,7 @@ def setup_db(request):
 @pytest.fixture(scope="module")
 def sample_entry():
     return "time 2017-10-22_18:20:05+0000 time_response 60 mac_source 08:00:27:f4:c8:4b ip_source 10.0.2.16 squid_request_status TAG_NONE http_status_code 200 http_reply_size 0 http_request_method CONNECT http_request_url 172.217.5.228:443 user_name - squid_hier_code ORIGINAL_DST ip_destination 172.217.5.228 http_content_type -"
+
+@pytest.fixture(scope="module")
+def sample_entries():
+    return ["time 2017-10-22_18:20:05+0000 time_response 60 mac_source 08:00:27:f4:c8:4b ip_source 10.0.2.16 squid_request_status TAG_NONE http_status_code 200 http_reply_size 0 http_request_method CONNECT http_request_url 172.217.5.228:1 user_name - squid_hier_code ORIGINAL_DST ip_destination 172.217.5.228 http_content_type -", "time 2017-10-22_18:20:05+0000 time_response 60 mac_source 08:00:27:f4:c8:4b ip_source 10.0.2.16 squid_request_status TAG_NONE http_status_code 200 http_reply_size 0 http_request_method CONNECT http_request_url 172.217.5.228:2 user_name - squid_hier_code ORIGINAL_DST ip_destination 172.217.5.228 http_content_type -", "time 2017-10-22_18:20:05+0000 time_response 60 mac_source 08:00:27:f4:c8:4b ip_source 10.0.2.16 squid_request_status TAG_NONE http_status_code 200 http_reply_size 0 http_request_method CONNECT http_request_url 172.217.5.228:3 user_name - squid_hier_code ORIGINAL_DST ip_destination 172.217.5.228 http_content_type -"] 

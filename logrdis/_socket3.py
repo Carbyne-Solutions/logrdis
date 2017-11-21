@@ -47,6 +47,7 @@ class LogTCPProtocol(Protocol):
             else:
                 self.sql.store(tablename, match)
                 LOGGER.info('Stored match in {}'.format(tablename))
+                self.data = ""
 
 class LogUDPProtocol(DatagramProtocol):
     """UDP Server implementation."""
@@ -91,6 +92,7 @@ class LogUDPProtocol(DatagramProtocol):
             else:
                 self.sql.store(tablename, match)
                 LOGGER.info('Stored match in {}'.format(tablename))
+                self.data = ""
 
 class AsynchSocketServer:
     """Create a loop and socket, based on type."""
